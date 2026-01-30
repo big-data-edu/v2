@@ -1,13 +1,2 @@
-import React from 'react';
-import { createRoot } from 'react-dom';
-import App from './App.tsx';
-
-const rootElement = document.getElementById('root');
-if (rootElement) {
-  const root = createRoot(rootElement);
-  root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
-}
+// This file is intentionally empty. The application logic has been moved to index.html 
+// to ensure compatibility with GitHub Pages and local file protocols.
