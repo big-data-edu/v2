@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Big Data în Educație | Ghid pentru Studenți</title>
+    <title>Big Data in Education | Student Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
-    <!-- Babel Standalone for JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <style>
@@ -44,16 +42,6 @@
             scroll-behavior: smooth;
         }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.38.0"
-  }
-}
-</script>
 </head>
 <body class="gradient-bg min-h-screen scroll-smooth">
     <div id="root"></div>
@@ -61,161 +49,474 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // --- CONSTANTS ---
-        const STATS = [
-            {
-                value: "15.3%",
-                label: "Abandon școlar",
-                description: "Rata abandonului școlar timpuriu în România (2024) - cea mai ridicată din UE.",
-                color: "#6366f1", // Indigo
-                solution: "Early warning systems",
-                sourceLink: "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Early_leavers_from_education_and_training"
+        // --- MULTI-LANGUAGE CONTENT ---
+        const CONTENT = {
+            ro: {
+                nav: {
+                    why: "De ce date?",
+                    career: "Carieră",
+                    funding: "Finanțare"
+                },
+                stats: [
+                    {
+                        value: "15.3%",
+                        label: "Abandon școlar",
+                        description: "Rata abandonului școlar timpuriu în România (2024) - cea mai ridicată din UE.",
+                        color: "#6366f1",
+                        solution: "Early warning systems",
+                    },
+                    {
+                        value: "3x",
+                        label: "Diferență urban-rural",
+                        description: "Copiii din mediul rural au de 3 ori mai puține șanse să finalizeze liceul decât cei din urban.",
+                        color: "#ec4899",
+                        solution: "Alocare țintită de resurse",
+                    },
+                    {
+                        value: "43%",
+                        label: "Sub nivel minim",
+                        description: "Din elevii de 15 ani nu ating nivelul minim de competență în citire (PISA 2022).",
+                        color: "#06b6d4",
+                        solution: "Evaluare formativă continuă",
+                    },
+                    {
+                        value: "45K",
+                        label: "Deficit de cadre",
+                        description: "Lipsesc ~45.000 de profesori în sistem. Datele pot prioriza recrutarea.",
+                        color: "#f59e0b",
+                        solution: "HR analytics în educație",
+                    }
+                ],
+                initiatives: [
+                    {
+                        id: 1,
+                        title: "Copiii colectează date în grădiniță",
+                        org: "EDC - Engaging Preschoolers",
+                        tag: "Preșcolar",
+                        description: "Dezvoltă activități prin care copiii învață să colecteze și să 'vadă' date.",
+                        impact: "Educatoarele pot observa progresul în competențe numerice și științifice timpurii.",
+                        link: "https://edc.org/projects/engaging-preschoolers-in-data-collection-and-analysis"
+                    },
+                    {
+                        id: 2,
+                        title: "UNICEF folosește date pentru echitate",
+                        org: "UNICEF MICS-EAGLE",
+                        tag: "K-12 Global",
+                        description: "Ajută guvernele să identifice copiii excluși din educație și să măsoare rezultatele.",
+                        impact: "Alocare de resurse către comunitățile cu cele mai mari disparități.",
+                        link: "https://data.unicef.org/resources/mics-education-analysis-for-global-learning-and-equity/"
+                    },
+                    {
+                        id: 3,
+                        title: "PowerSchool: Decizii bazate pe date",
+                        org: "PowerSchool",
+                        tag: "K-12 US",
+                        description: "Transformă datele despre note și absențe în dashboards acționabile pentru profesori.",
+                        impact: "Identificarea rapidă a elevilor în risc de abandon și intervenții personalizate.",
+                        link: "https://www.powerschool.com/blog/7-steps-for-making-data-driven-decision-in-education/"
+                    },
+                    {
+                        id: 4,
+                        title: "SoLAR: Learning Analytics Research",
+                        org: "Society for Learning Analytics Research",
+                        tag: "Universitar",
+                        description: "Conectează cercetători care folosesc date pentru a optimiza învățarea online.",
+                        impact: "Universitățile folosesc analiza comportamentului pentru a redesena cursurile.",
+                        link: "https://www.solaresearch.org/events/lak/"
+                    },
+                    {
+                        id: 5,
+                        title: "LINEup: Date longitudine",
+                        org: "Horizon Europe",
+                        tag: "Policy EU",
+                        description: "Analizează date longitudine pentru a înțelege inegalitățile educaționale.",
+                        impact: "Guvernele implementează politici țintite pentru grupurile vulnerabile.",
+                        link: "https://www.lineup-project.eu/"
+                    },
+                    {
+                        id: 6,
+                        title: "CEDS: Standarde comune",
+                        org: "US Dept of Education",
+                        tag: "Standardizare",
+                        description: "Oferă un vocabular standardizat permițând sistemelor să 'vorbească aceeași limbă'.",
+                        impact: "Analize comparative la scară și alocare eficientă de resurse.",
+                        link: "https://ceds.ed.gov/"
+                    }
+                ],
+                careers: [
+                    {
+                        id: "01",
+                        title: "Data Lead în școală",
+                        description: "Proiectezi instrumente de colectare, interpretezi datele și coordonezi intervenții educaționale bazate pe dovezi.",
+                        skills: ["Științele Educației", "Excel", "Vizualizare date", "Comunicare"],
+                        miniProject: "Creează un sistem de tracking pentru progresul elevilor folosind Google Sheets.",
+                        color: "#4f46e5"
+                    },
+                    {
+                        id: "02",
+                        title: "Coordonator M&E în ONG",
+                        description: "Măsori impactul programelor educaționale și raportezi către finanțatori și stakeholderi.",
+                        skills: ["M&E", "Indicatori", "Raportare", "Management proiecte"],
+                        miniProject: "Dezvoltă un framework de M&E pentru un program fictiv de tutoring.",
+                        color: "#0891b2"
+                    },
+                    {
+                        id: "03",
+                        title: "Learning Designer 'Analytics'",
+                        description: "Construiești experiențe de învățare care produc date utile pentru îmbunătățire continuă.",
+                        skills: ["Instructional Design", "Learning Analytics", "UX/UI", "Assessment"],
+                        miniProject: "Redesign o lecție tradițională pentru a include checkpoints formative digitale.",
+                        color: "#db2777"
+                    },
+                    {
+                        id: "04",
+                        title: "Analist în Administrație Publică",
+                        description: "Lucrezi cu indicatori educaționali și contribui la decizii de politici publice evidence-based.",
+                        skills: ["Statistică", "Indicatori", "Policy analysis", "Raportare"],
+                        miniProject: "Analizează date publice despre școlile din județul tău și scrie un memo de politici.",
+                        color: "#059669"
+                    }
+                ],
+                learningObjs: [
+                    { t: "Tipuri de date", d: "Ce sunt datele educaționale și ce tipuri întâlnim (cantitative, calitative, administrative, observaționale, digitale).", c: "bg-indigo-500" },
+                    { t: "Colectare reală", d: "Cum se colectează datele în contexte educaționale reale, de la grădiniță până la universitate.", c: "bg-pink-500" },
+                    { t: "Gândire critică", d: "Cum citim datele critic, evitând interpretările greșite, supra-simplificarea sau biasurile.", c: "bg-cyan-500" },
+                    { t: "Decizii acționabile", d: "Cum transformăm datele în decizii bune, nu doar în rapoarte sau statistici.", c: "bg-amber-500" },
+                    { t: "Adaptare & Diversitate", d: "Cum adaptăm deciziile bazate pe date la vârsta, nevoile și diversitatea copiilor și studenților.", c: "bg-emerald-500" },
+                    { t: "Etică & Responsabilitate", d: "Etica datelor, protecția (GDPR), confidențialitatea și responsabilitatea profesională.", c: "bg-violet-500" },
+                    { t: "Inovare în educație", d: "Cum folosim datele pentru reflecție educațională, îmbunătățirea practicii și inovare.", c: "bg-rose-500" }
+                ],
+                fundingSources: {
+                    erasmus: {
+                        desc: "Programul emblematic al UE pentru educație. Excelent pentru parteneriate educaționale, inovație și data literacy.",
+                        projectList: ["KA2 - Parteneriate de cooperare", "Inovație digitală: platforme digitale", "Dezvoltare profesională: training"],
+                        example: "Data Literacy pentru Profesori din Rural"
+                    },
+                    horizon: {
+                        desc: "Programul UE pentru cercetare și inovare. Perfect pentru proiecte care testează AI și learning analytics.",
+                        projectList: ["Cluster 2 - Culture & Society", "Piloting tehnologii: testare soluții", "Ethical AI: AI responsabil"],
+                        example: "AI Tutor Adaptat pentru Matematică"
+                    },
+                    esf: {
+                        desc: "Cel mai mare instrument UE pentru investiții în oameni. Ideal pentru scalarea intervențiilor bazate pe date.",
+                        projectList: ["Combaterea abandonului școlar", "Incluziune grupuri vulnerabile", "Upskilling cadre didactice la scară"],
+                        example: "Observator Județean pentru Echitate"
+                    },
+                    digital: {
+                        desc: "Program pentru accelerarea transformării digitale. Finanțează proiecte de AI și competențe digitale avansate.",
+                        projectList: ["AI pentru educație: aplicații noi", "Data spaces: ecosisteme securizate", "Testing AI: sandboxes pentru teste"],
+                        example: "European Education Data Space Pilot"
+                    }
+                },
+                home: {
+                    heroTitle: ["Transformă ", "datele", " în decizii educaționale mai bune"],
+                    heroDesc: "Ghidul tău practic pentru utilizarea dovezilor în educație. Explorează inițiative concrete și descoperă cum poți face diferența.",
+                    contextBadge: "Analiza de context",
+                    contextTitle: "De Ce Contează Datele?",
+                    contextDesc: "Provocările sistemului educațional pot fi abordate prin analiză riguroasă și decizii informate.",
+                    modelsTitle: "Modele de Bune Practici",
+                    modelsDesc: "Inovații globale care folosesc datele pentru impact real în educație.",
+                    courseTitle: "Big Data, Analiza și Utilizarea Datelor",
+                    taughtBy: "Predat de",
+                    courseDesc: "Un curs de pionierat dedicat studenților de la Științele Educației din cadrul Universității de Vest din Timișoara, menit să formeze o nouă generație de profesioniști capabili să navigheze complexitatea sistemelor educaționale moderne informate de date și dovezi.",
+                    whyEnroll: "De ce să te înscrii?",
+                    reasons: [
+                        "Skill-uri de viitor solicitate de angajatorii din EdTech și politici publice.",
+                        "Înveți să fundamentezi intervențiile pedagogice pe dovezi, nu pe intuiție.",
+                        "Acces la expertiză internațională și studii de caz globale.",
+                        "Dezvolți capacitatea de a măsura impactul real al proiectelor tale educaționale."
+                    ],
+                    willLearn: "Vei învăța despre:"
+                },
+                careerPage: {
+                    title: ["Harta ta de ", "Carieră"],
+                    subtitle: "Descoperă oportunități noi la intersecția dintre Științele Educației, tehnologie și analiză de date.",
+                    prepTitle: "Ești gata să începi?",
+                    steps: [
+                        { t: "Explorează Roluri", d: "Alege 1-2 roluri care rezonează cu tine și explorează mini-proiectele recomandate pentru a-ți testa aptitudinile." },
+                        { t: "Învață tool-urile esențiale", d: "De la Google Sheets și Excel, la vizualizare în Tableau/PowerBI sau statistică în R." },
+                        { t: "Networking", d: "Conectează-te cu profesioniști din SoLAR sau participă la conferințe de Learning Analytics." },
+                        { t: "Portofoliu", d: "Documentează-ți procesul de analiză a unei baze de date publice (ex: data.gov.ro)." }
+                    ]
+                },
+                fundingPage: {
+                    title: ["Cum ", "Finanțezi", " o Inițiativă"],
+                    subtitle: "Ghid complet despre sursele de finanțare europene și oportunități specifice pentru proiecte de Data & AI în educație.",
+                    mainTitle: "Surse Principale de Finanțare",
+                    callsTitle: "Apeluri Active și Viitoare (2025-2027)",
+                    calls: [
+                        { status: "DESCHIS 2025", title: "Erasmus+ KA220", desc: "Dezvoltare curriculum și training pentru profesori.", budget: "€120k - €400k", duration: "24-36 luni" },
+                        { status: "APEL 2026", title: "Horizon Europe", desc: "Cercetare și inovare în sisteme AI educaționale.", budget: "€2M - €5M", duration: "36-48 luni" },
+                        { status: "PLANIFICAT 2026", title: "Digital Europe", desc: "Crearea de ecosisteme de partajare a datelor.", budget: "€3M - €8M", duration: "24-36 luni" },
+                        { status: "ROLLING CALLS", title: "ESF+ EWS", desc: "Sisteme pentru identificarea riscului de abandon.", budget: "€500k - €2M", duration: "24-48 luni" }
+                    ],
+                    proposalTitle: "Cum Construiești o Propunere de Succes",
+                    proposalSteps: [
+                        { t: "1. Definește problema clar", d: "Nu începe cu soluția tehnică. Identifică o problemă reală din educație.", c: "text-indigo-600" },
+                        { t: "2. Arată dovada conceptului", d: "Pilot mic care demonstrează că abordarea funcționează. Dovezi concrete.", c: "text-pink-500" },
+                        { t: "3. Parteneriate strategice", d: "Combină expertise: universitate, ONG, școală și companii tech.", c: "text-cyan-500" },
+                        { t: "4. Impact măsurabil", d: "Definește KPI-uri clare: cifre exacte, procente și termene limită.", c: "text-amber-500" },
+                        { t: "5. Etica datelor ca prioritate", d: "GDPR compliance de la design. Transparență și măsuri anti-bias.", c: "text-emerald-500" },
+                        { t: "6. Sustenabilitate post-proiect", d: "Plan clar pentru continuare după finanțare. Integrare bugetară.", c: "text-violet-500" }
+                    ],
+                    resourcesTitle: "Resurse Utile pentru Grant Writing"
+                },
+                ui: {
+                    solution: "Potențială soluție",
+                    explore: "Explorează proiectul",
+                    impact: "Decizia îmbunătățită:",
+                    skills: "Skilluri necesare:",
+                    miniProject: "Mini-proiect recomandat:",
+                    forDataProjects: "Pentru proiecte de date:",
+                    focusData: "Focus AI & Data:",
+                    exampleProject: "Exemplu de proiect:",
+                    exploreProgram: "Explorează"
+                },
+                footer: {
+                    desc: "Ghidul studentului la Științele Educației pentru utilizarea Big Data și AI în procesul de învățământ modern.",
+                    nav: "Navigare",
+                    partners: "Parteneri",
+                    programTitle: "Programul Educație și Ocupare 2021-2027",
+                    programDesc: "„Profesioniști reflexivi - colaborativi: un sistem integrat de activități de învățare la locul de muncă și complementare, fundamentat pe principiile integrării teoriei cu practica și utilizării dovezilor în procesul de decizie”",
+                    rights: "© 2026 BigData.Edu | Toate drepturile rezervate. Material realizat sub egida Universității de Vest din Timișoara."
+                }
             },
-            {
-                value: "3x",
-                label: "Diferență urban-rural",
-                description: "Copiii din mediul rural au de 3 ori mai puține șanse să finalizeze liceul decât cei din urban.",
-                color: "#ec4899", // Pink
-                solution: "Alocare țintită de resurse",
-                sourceLink: "https://www.unicef.org/romania/ro/rapoarte/analiza-sectorial%C4%83-a-educa%C8%9Biei"
-            },
-            {
-                value: "43%",
-                label: "Sub nivel minim",
-                description: "Din elevii de 15 ani nu ating nivelul minim de competență în citire (PISA 2022).",
-                color: "#06b6d4", // Cyan
-                solution: "Evaluare formativă continuă",
-                sourceLink: "https://www.oecd.org/en/publications/pisa-2022-results-volume-i_53123047-en.html"
-            },
-            {
-                value: "45K",
-                label: "Deficit de cadre",
-                description: "Lipsesc ~45.000 de profesori în sistem. Datele pot prioriza recrutarea.",
-                color: "#f59e0b", // Amber
-                solution: "HR analytics în educație",
-                sourceLink: "https://www.edupedu.ro/deficitul-de-profesori-din-romania-o-analiza-a-datelor-oficiale/"
+            en: {
+                nav: {
+                    why: "Why Data?",
+                    career: "Career",
+                    funding: "Funding"
+                },
+                stats: [
+                    {
+                        value: "15.3%",
+                        label: "School Dropout",
+                        description: "Early school leaving rate in Romania (2024) - the highest in the EU.",
+                        color: "#6366f1",
+                        solution: "Early warning systems",
+                    },
+                    {
+                        value: "3x",
+                        label: "Urban-Rural Gap",
+                        description: "Children in rural areas are 3 times less likely to complete high school than those in urban areas.",
+                        color: "#ec4899",
+                        solution: "Targeted resource allocation",
+                    },
+                    {
+                        value: "43%",
+                        label: "Below Min Level",
+                        description: "Of 15-year-old students do not reach minimum proficiency in reading (PISA 2022).",
+                        color: "#06b6d4",
+                        solution: "Continuous formative assessment",
+                    },
+                    {
+                        value: "45K",
+                        label: "Staff Shortage",
+                        description: "~45,000 teachers missing from the system. Data can prioritize recruitment.",
+                        color: "#f59e0b",
+                        solution: "HR analytics in education",
+                    }
+                ],
+                initiatives: [
+                    {
+                        id: 1,
+                        title: "Kids Collect Data in Kindergarten",
+                        org: "EDC - Engaging Preschoolers",
+                        tag: "Preschool",
+                        description: "Develops activities where children learn to collect and 'see' data.",
+                        impact: "Teachers can observe progress in early numeracy and scientific skills.",
+                        link: "https://edc.org/projects/engaging-preschoolers-in-data-collection-and-analysis"
+                    },
+                    {
+                        id: 2,
+                        title: "UNICEF Uses Data for Equity",
+                        org: "UNICEF MICS-EAGLE",
+                        tag: "K-12 Global",
+                        description: "Helps governments identify children excluded from education and measure outcomes.",
+                        impact: "Resource allocation to communities with the greatest disparities.",
+                        link: "https://data.unicef.org/resources/mics-education-analysis-for-global-learning-and-equity/"
+                    },
+                    {
+                        id: 3,
+                        title: "PowerSchool: Data-Driven Decisions",
+                        org: "PowerSchool",
+                        tag: "K-12 US",
+                        description: "Transforms grade and attendance data into actionable dashboards for teachers.",
+                        impact: "Rapid identification of students at risk of dropout and personalized interventions.",
+                        link: "https://www.powerschool.com/blog/7-steps-for-making-data-driven-decision-in-education/"
+                    },
+                    {
+                        id: 4,
+                        title: "SoLAR: Learning Analytics Research",
+                        org: "Society for Learning Analytics Research",
+                        tag: "University",
+                        description: "Connects researchers using data to optimize online learning.",
+                        impact: "Universities use behavioral analysis to redesign courses.",
+                        link: "https://www.solaresearch.org/events/lak/"
+                    },
+                    {
+                        id: 5,
+                        title: "LINEup: Longitudinal Data",
+                        org: "Horizon Europe",
+                        tag: "Policy EU",
+                        description: "Analyzes longitudinal data to understand educational inequalities.",
+                        impact: "Governments implement targeted policies for vulnerable groups.",
+                        link: "https://www.lineup-project.eu/"
+                    },
+                    {
+                        id: 6,
+                        title: "CEDS: Common Standards",
+                        org: "US Dept of Education",
+                        tag: "Standardization",
+                        description: "Offers a standardized vocabulary allowing systems to 'speak the same language'.",
+                        impact: "Comparative analysis at scale and efficient resource allocation.",
+                        link: "https://ceds.ed.gov/"
+                    }
+                ],
+                careers: [
+                    {
+                        id: "01",
+                        title: "School Data Lead",
+                        description: "Design collection instruments, interpret data, and coordinate evidence-based educational interventions.",
+                        skills: ["Educational Sciences", "Excel", "Data Viz", "Communication"],
+                        miniProject: "Create a tracking system for student progress using Google Sheets.",
+                        color: "#4f46e5"
+                    },
+                    {
+                        id: "02",
+                        title: "M&E Coordinator in NGO",
+                        description: "Measure the impact of educational programs and report to funders and stakeholders.",
+                        skills: ["M&E", "Indicators", "Reporting", "Project Management"],
+                        miniProject: "Develop an M&E framework for a fictional tutoring program.",
+                        color: "#0891b2"
+                    },
+                    {
+                        id: "03",
+                        title: "Learning Designer 'Analytics'",
+                        description: "Build learning experiences that produce useful data for continuous improvement.",
+                        skills: ["Instructional Design", "Learning Analytics", "UX/UI", "Assessment"],
+                        miniProject: "Redesign a traditional lesson to include digital formative checkpoints.",
+                        color: "#db2777"
+                    },
+                    {
+                        id: "04",
+                        title: "Public Administration Analyst",
+                        description: "Work with educational indicators and contribute to evidence-based public policy decisions.",
+                        skills: ["Statistics", "Indicators", "Policy analysis", "Reporting"],
+                        miniProject: "Analyze public data about schools in your county and write a policy memo.",
+                        color: "#059669"
+                    }
+                ],
+                learningObjs: [
+                    { t: "Data Types", d: "What are educational data and what types exist (quantitative, qualitative, administrative, observational, digital).", c: "bg-indigo-500" },
+                    { t: "Real Collection", d: "How data is collected in real educational contexts, from kindergarten to university.", c: "bg-pink-500" },
+                    { t: "Critical Thinking", d: "How to read data critically, avoiding misinterpretations, oversimplification, or biases.", c: "bg-cyan-500" },
+                    { t: "Actionable Decisions", d: "How to transform data into good decisions, not just reports or statistics.", c: "bg-amber-500" },
+                    { t: "Adaptation & Diversity", d: "How to adapt data-driven decisions to the age, needs, and diversity of children and students.", c: "bg-emerald-500" },
+                    { t: "Ethics & Responsibility", d: "Data ethics, protection (GDPR), confidentiality, and professional responsibility.", c: "bg-violet-500" },
+                    { t: "Innovation in Education", d: "How to use data for educational reflection, improving practice, and innovation.", c: "bg-rose-500" }
+                ],
+                fundingSources: {
+                    erasmus: {
+                        desc: "EU's flagship program for education. Excellent for educational partnerships, innovation, and data literacy.",
+                        projectList: ["KA2 - Cooperation partnerships", "Digital innovation: digital platforms", "Professional development: training"],
+                        example: "Data Literacy for Rural Teachers"
+                    },
+                    horizon: {
+                        desc: "EU program for research and innovation. Perfect for projects testing AI and learning analytics.",
+                        projectList: ["Cluster 2 - Culture & Society", "Piloting technologies: solution testing", "Ethical AI: responsible AI"],
+                        example: "Adaptive AI Tutor for Mathematics"
+                    },
+                    esf: {
+                        desc: "EU's largest instrument for investing in people. Ideal for scaling data-based interventions.",
+                        projectList: ["Combating school dropout", "Inclusion of vulnerable groups", "Upskilling teachers at scale"],
+                        example: "County Equity Observatory"
+                    },
+                    digital: {
+                        desc: "Program to accelerate digital transformation. Funds AI projects and advanced digital skills.",
+                        projectList: ["AI for education: new applications", "Data spaces: secure ecosystems", "Testing AI: sandboxes for tests"],
+                        example: "European Education Data Space Pilot"
+                    }
+                },
+                home: {
+                    heroTitle: ["Transform ", "data", " into better educational decisions"],
+                    heroDesc: "Your practical guide to using evidence in education. Explore concrete initiatives and discover how you can make a difference.",
+                    contextBadge: "Context Analysis",
+                    contextTitle: "Why Does Data Matter?",
+                    contextDesc: "Education system challenges can be addressed through rigorous analysis and informed decisions.",
+                    modelsTitle: "Best Practice Models",
+                    modelsDesc: "Global innovations using data for real impact in education.",
+                    courseTitle: "Big Data, Analysis, and Data Use",
+                    taughtBy: "Taught by",
+                    courseDesc: "A pioneering course dedicated to Educational Sciences students at the West University of Timișoara, designed to train a new generation of professionals capable of navigating the complexity of modern data-informed education systems.",
+                    whyEnroll: "Why Enroll?",
+                    reasons: [
+                        "Future skills demanded by employers in EdTech and public policy.",
+                        "Learn to base pedagogical interventions on evidence, not intuition.",
+                        "Access to international expertise and global case studies.",
+                        "Develop the ability to measure the real impact of your educational projects."
+                    ],
+                    willLearn: "You will learn about:"
+                },
+                careerPage: {
+                    title: ["Your ", "Career", " Map"],
+                    subtitle: "Discover new opportunities at the intersection of Educational Sciences, technology, and data analysis.",
+                    prepTitle: "Ready to Start?",
+                    steps: [
+                        { t: "Explore Roles", d: "Choose 1-2 roles that resonate with you and explore the recommended mini-projects to test your skills." },
+                        { t: "Learn Essential Tools", d: "From Google Sheets and Excel to visualization in Tableau/PowerBI or statistics in R." },
+                        { t: "Networking", d: "Connect with professionals from SoLAR or attend Learning Analytics conferences." },
+                        { t: "Portfolio", d: "Document your process of analyzing a public database (e.g., data.gov.ro)." }
+                    ]
+                },
+                fundingPage: {
+                    title: ["How to ", "Fund", " an Initiative"],
+                    subtitle: "Complete guide on European funding sources and specific opportunities for Data & AI projects in education.",
+                    mainTitle: "Main Funding Sources",
+                    callsTitle: "Active and Future Calls (2025-2027)",
+                    calls: [
+                        { status: "OPEN 2025", title: "Erasmus+ KA220", desc: "Curriculum development and teacher training.", budget: "€120k - €400k", duration: "24-36 months" },
+                        { status: "CALL 2026", title: "Horizon Europe", desc: "Research and innovation in educational AI systems.", budget: "€2M - €5M", duration: "36-48 months" },
+                        { status: "PLANNED 2026", title: "Digital Europe", desc: "Creating secure data sharing ecosystems.", budget: "€3M - €8M", duration: "24-36 months" },
+                        { status: "ROLLING CALLS", title: "ESF+ EWS", desc: "Systems for identifying dropout risk.", budget: "€500k - €2M", duration: "24-48 months" }
+                    ],
+                    proposalTitle: "How to Build a Successful Proposal",
+                    proposalSteps: [
+                        { t: "1. Define the problem clearly", d: "Don't start with the technical solution. Identify a real problem in education.", c: "text-indigo-600" },
+                        { t: "2. Show proof of concept", d: "Small pilot demonstrating the approach works. Concrete evidence.", c: "text-pink-500" },
+                        { t: "3. Strategic partnerships", d: "Combine expertise: university, NGO, school, and tech companies.", c: "text-cyan-500" },
+                        { t: "4. Measurable impact", d: "Define clear KPIs: exact figures, percentages, and deadlines.", c: "text-amber-500" },
+                        { t: "5. Data ethics as priority", d: "GDPR compliance by design. Transparency and anti-bias measures.", c: "text-emerald-500" },
+                        { t: "6. Post-project sustainability", d: "Clear plan for continuation after funding. Budgetary integration.", c: "text-violet-500" }
+                    ],
+                    resourcesTitle: "Useful Resources for Grant Writing"
+                },
+                ui: {
+                    solution: "Potential solution",
+                    explore: "Explore project",
+                    impact: "Improved Decision:",
+                    skills: "Required Skills:",
+                    miniProject: "Recommended Mini-project:",
+                    forDataProjects: "For data projects:",
+                    focusData: "Focus AI & Data:",
+                    exampleProject: "Project Example:",
+                    exploreProgram: "Explore"
+                },
+                footer: {
+                    desc: "Student guide for Educational Sciences on using Big Data and AI in modern education.",
+                    nav: "Navigation",
+                    partners: "Partners",
+                    programTitle: "Education and Employment Program 2021-2027",
+                    programDesc: "“Reflective - collaborative professionals: an integrated system of workplace and complementary learning activities, based on the principles of integrating theory with practice and using evidence in decision-making”",
+                    rights: "© 2026 BigData.Edu | All rights reserved. Material produced under the aegis of the West University of Timișoara."
+                }
             }
-        ];
-
-        const INITIATIVES = [
-            {
-                id: 1,
-                title: "Copiii colectează date în grădiniță",
-                org: "EDC - Engaging Preschoolers",
-                level: ["prescolar"],
-                type: "cercetare",
-                dataType: "Observații + Digital tool",
-                decision: "design",
-                tag: "Preșcolar",
-                description: "Dezvoltă activități prin care copiii învață să colecteze și să 'vadă' date.",
-                impact: "Educatoarele pot observa progresul în competențe numerice și științifice timpurii.",
-                link: "https://edc.org/projects/engaging-preschoolers-in-data-collection-and-analysis"
-            },
-            {
-                id: 2,
-                title: "UNICEF folosește date pentru echitate",
-                org: "UNICEF MICS-EAGLE",
-                level: ["K-12 Global"],
-                type: "ong",
-                dataType: "Survey + Administrative",
-                decision: "echitate",
-                tag: "K-12 Global",
-                description: "Ajută guvernele să identifice copiii excluși din educație și să măsoare rezultatele.",
-                impact: "Alocare de resurse către comunitățile cu cele mai mari disparități.",
-                link: "https://data.unicef.org/resources/mics-education-analysis-for-global-learning-and-equity/"
-            },
-            {
-                id: 3,
-                title: "PowerSchool: Decizii bazate pe date",
-                org: "PowerSchool",
-                level: ["K-12 US"],
-                type: "edtech",
-                dataType: "SIS + Dashboards",
-                decision: "interventie",
-                tag: "K-12 US",
-                description: "Transformă datele despre note și absențe în dashboards acționabile pentru profesori.",
-                impact: "Identificarea rapidă a elevilor în risc de abandon și intervenții personalizate.",
-                link: "https://www.powerschool.com/blog/7-steps-for-making-data-driven-decision-in-education/"
-            },
-            {
-                id: 4,
-                title: "SoLAR: Learning Analytics Research",
-                org: "Society for Learning Analytics Research",
-                level: ["universitar"],
-                type: "cercetare",
-                dataType: "LMS + Behavioral analytics",
-                decision: "design",
-                tag: "Universitar",
-                description: "Conectează cercetători care folosesc date pentru a optimiza învățarea online.",
-                impact: "Universitățile folosesc analiza comportamentului pentru a redesena cursurile.",
-                link: "https://www.solaresearch.org/events/lak/"
-            },
-            {
-                id: 5,
-                title: "LINEup: Date longitudine",
-                org: "Horizon Europe",
-                level: ["policy"],
-                type: "ue",
-                dataType: "Longitudinal data",
-                decision: "echitate",
-                tag: "Policy EU",
-                description: "Analizează date longitudine pentru a înțelege inegalitățile educaționale.",
-                impact: "Guvernele implementează politici țintite pentru grupurile vulnerabile.",
-                link: "https://www.lineup-project.eu/"
-            },
-            {
-                id: 6,
-                title: "CEDS: Standarde comune",
-                org: "US Dept of Education",
-                level: ["policy"],
-                type: "guvern",
-                dataType: "Standardizare",
-                decision: "resurse",
-                tag: "Standardizare",
-                description: "Oferă un vocabular standardizat permițând sistemelor să 'vorbească aceeași limbă'.",
-                impact: "Analize comparative la scară și alocare eficientă de resurse.",
-                link: "https://ceds.ed.gov/"
-            }
-        ];
-
-        const CAREER_ROLES = [
-            {
-                id: "01",
-                title: "Data Lead în școală",
-                description: "Proiectezi instrumente de colectare, interpretezi datele și coordonezi intervenții educaționale bazate pe dovezi.",
-                skills: ["Științele Educației", "Excel", "Vizualizare date", "Comunicare"],
-                miniProject: "Creează un sistem de tracking pentru progresul elevilor folosind Google Sheets.",
-                color: "#4f46e5"
-            },
-            {
-                id: "02",
-                title: "Coordonator M&E în ONG",
-                description: "Măsori impactul programelor educaționale și raportezi către finanțatori și stakeholderi.",
-                skills: ["M&E", "Indicatori", "Raportare", "Management proiecte"],
-                miniProject: "Dezvoltă un framework de M&E pentru un program fictiv de tutoring.",
-                color: "#0891b2"
-            },
-            {
-                id: "03",
-                title: "Learning Designer 'Analytics'",
-                description: "Construiești experiențe de învățare care produc date utile pentru îmbunătățire continuă.",
-                skills: ["Instructional Design", "Learning Analytics", "UX/UI", "Assessment"],
-                miniProject: "Redesign o lecție tradițională pentru a include checkpoints formative digitale.",
-                color: "#db2777"
-            },
-            {
-                id: "04",
-                title: "Analist în Administrație Publică",
-                description: "Lucrezi cu indicatori educaționali și contribui la decizii de politici publice evidence-based.",
-                skills: ["Statistică", "Indicatori", "Policy analysis", "Raportare"],
-                miniProject: "Analizează date publice despre școlile din județul tău și scrie un memo de politici.",
-                color: "#059669"
-            }
-        ];
+        };
 
         // --- COMPONENTS ---
 
-        const Navbar = ({ currentTab, setTab }) => {
+        const Navbar = ({ currentTab, setTab, lang, setLang }) => {
+            const content = CONTENT[lang].nav;
             return (
                 <nav className="sticky top-0 bg-white/80 backdrop-blur-xl border-b border-slate-100 z-50 shadow-sm">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -226,24 +527,33 @@
                             >
                                 BigData<span className="text-indigo-600">.</span>Edu
                             </div>
-                            <div className="hidden md:flex space-x-4">
+                            <div className="flex items-center space-x-4">
+                                <div className="hidden md:flex space-x-4">
+                                    <button
+                                        onClick={() => setTab('home')}
+                                        className={`text-sm font-bold transition-all px-4 py-2.5 rounded-xl ${currentTab === 'home' ? 'text-white bg-indigo-600 shadow-lg shadow-indigo-200' : 'text-slate-500 hover:text-indigo-600 hover:bg-indigo-50'}`}
+                                    >
+                                        {content.why}
+                                    </button>
+                                    <button
+                                        onClick={() => setTab('career')}
+                                        className={`text-sm font-bold transition-all px-4 py-2.5 rounded-xl ${currentTab === 'career' ? 'text-white bg-indigo-600 shadow-lg shadow-indigo-200' : 'text-slate-500 hover:text-indigo-600 hover:bg-indigo-50'}`}
+                                    >
+                                        {content.career}
+                                    </button>
+                                    <button
+                                        onClick={() => setTab('funding')}
+                                        className={`text-sm font-bold transition-all px-4 py-2.5 rounded-xl ${currentTab === 'funding' ? 'text-white bg-indigo-600 shadow-lg shadow-indigo-200' : 'text-slate-500 hover:text-indigo-600 hover:bg-indigo-50'}`}
+                                    >
+                                        {content.funding}
+                                    </button>
+                                </div>
+                                <div className="h-6 w-px bg-slate-200 mx-2 hidden md:block"></div>
                                 <button
-                                    onClick={() => setTab('home')}
-                                    className={`text-sm font-bold transition-all px-4 py-2.5 rounded-xl ${currentTab === 'home' ? 'text-white bg-indigo-600 shadow-lg shadow-indigo-200' : 'text-slate-500 hover:text-indigo-600 hover:bg-indigo-50'}`}
+                                    onClick={() => setLang(lang === 'ro' ? 'en' : 'ro')}
+                                    className="text-xs font-black uppercase tracking-wider text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-2 rounded-lg transition-colors"
                                 >
-                                    De ce date?
-                                </button>
-                                <button
-                                    onClick={() => setTab('career')}
-                                    className={`text-sm font-bold transition-all px-4 py-2.5 rounded-xl ${currentTab === 'career' ? 'text-white bg-indigo-600 shadow-lg shadow-indigo-200' : 'text-slate-500 hover:text-indigo-600 hover:bg-indigo-50'}`}
-                                >
-                                    Carieră
-                                </button>
-                                <button
-                                    onClick={() => setTab('funding')}
-                                    className={`text-sm font-bold transition-all px-4 py-2.5 rounded-xl ${currentTab === 'funding' ? 'text-white bg-indigo-600 shadow-lg shadow-indigo-200' : 'text-slate-500 hover:text-indigo-600 hover:bg-indigo-50'}`}
-                                >
-                                    Finanțare
+                                    {lang === 'ro' ? 'RO' : 'EN'} <span className="text-indigo-300">|</span> {lang === 'ro' ? 'EN' : 'RO'}
                                 </button>
                             </div>
                         </div>
@@ -252,7 +562,7 @@
             );
         };
 
-        const InitiativeCard = ({ initiative }) => {
+        const InitiativeCard = ({ initiative, ui }) => {
             const colors = [
                 'bg-indigo-600', 'bg-pink-500', 'bg-cyan-500', 
                 'bg-amber-500', 'bg-emerald-500', 'bg-violet-500'
@@ -280,7 +590,7 @@
                             {initiative.description}
                         </p>
                         <div className={`${bgColorClass} p-6 rounded-2xl border-l-4 ${accentColor.replace('bg-', 'border-')}`}>
-                            <p className={`text-[11px] font-black ${textColorClass} uppercase mb-2`}>Decizia îmbunătățită:</p>
+                            <p className={`text-[11px] font-black ${textColorClass} uppercase mb-2`}>{ui.impact}</p>
                             <p className="text-sm text-slate-700 italic leading-relaxed font-medium">{initiative.impact}</p>
                         </div>
                     </div>
@@ -292,14 +602,14 @@
                             rel="noopener noreferrer"
                             className={`inline-flex items-center ${textColorClass} font-bold text-sm hover:translate-x-1 transition-all`}
                         >
-                            Explorează proiectul <span className="ml-2">→</span>
+                            {ui.explore} <span className="ml-2">→</span>
                         </a>
                     </div>
                 </div>
             );
         };
 
-        const CareerCard = ({ role }) => {
+        const CareerCard = ({ role, ui }) => {
             return (
                 <div 
                     className="bg-white rounded-[2rem] p-8 border border-slate-100 hover:shadow-2xl transition-all group shadow-sm relative overflow-hidden text-left"
@@ -322,7 +632,7 @@
                     </p>
                     
                     <div className="pt-6 border-t border-dashed border-slate-100">
-                        <p className="font-bold text-slate-700 mb-4 text-[11px] uppercase tracking-widest">Skilluri necesare:</p>
+                        <p className="font-bold text-slate-700 mb-4 text-[11px] uppercase tracking-widest">{ui.skills}</p>
                         <div className="flex flex-wrap gap-2.5">
                             {role.skills.map((skill, idx) => (
                                 <span 
@@ -337,14 +647,14 @@
                     </div>
 
                     <div className="mt-8 p-5 rounded-xl bg-slate-50 border-l-4" style={{ borderColor: role.color }}>
-                        <p className="text-[9px] font-black text-slate-400 uppercase mb-2 tracking-[0.2em]">Mini-proiect recomandat:</p>
+                        <p className="text-[9px] font-black text-slate-400 uppercase mb-2 tracking-[0.2em]">{ui.miniProject}</p>
                         <p className="text-sm text-slate-700 italic font-medium leading-relaxed">{role.miniProject}</p>
                     </div>
                 </div>
             );
         };
 
-        const StatCard = ({ stat }) => {
+        const StatCard = ({ stat, uiLabel }) => {
             return (
                 <div 
                     className="bg-white rounded-2xl p-6 border transition-all hover:-translate-y-1 hover:shadow-lg text-left flex flex-col h-full shadow-sm"
@@ -367,7 +677,7 @@
                     <div className="pt-4 border-t border-slate-50 space-y-2">
                         <div className="flex items-center gap-2">
                             <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: stat.color }}></span>
-                            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Potențială soluție</p>
+                            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{uiLabel}</p>
                         </div>
                         <p className="text-xs font-bold text-slate-800 leading-tight">{stat.solution}</p>
                     </div>
@@ -379,6 +689,7 @@
 
         const App = () => {
             const [tab, setTab] = useState('home');
+            const [lang, setLang] = useState('ro');
 
             useEffect(() => {
                 const handleHash = () => {
@@ -398,19 +709,11 @@
                 window.scrollTo(0, 0);
             };
 
-            const learningObjectives = [
-                { t: "Tipuri de date", d: "Ce sunt datele educaționale și ce tipuri întâlnim (cantitative, calitative, administrative, observaționale, digitale).", c: "bg-indigo-500" },
-                { t: "Colectare reală", d: "Cum se colectează datele în contexte educaționale reale, de la grădiniță până la universitate.", c: "bg-pink-500" },
-                { t: "Gândire critică", d: "Cum citim datele critic, evitând interpretările greșite, supra-simplificarea sau biasurile.", c: "bg-cyan-500" },
-                { t: "Decizii acționabile", d: "Cum transformăm datele în decizii bune, nu doar în rapoarte sau statistici.", c: "bg-amber-500" },
-                { t: "Adaptare & Diversitate", d: "Cum adaptăm deciziile bazate pe date la vârsta, nevoile și diversitatea copiilor și studenților.", c: "bg-emerald-500" },
-                { t: "Etică & Responsabilitate", d: "Etica datelor, protecția (GDPR), confidențialitatea și responsabilitatea profesională.", c: "bg-violet-500" },
-                { t: "Inovare în educație", d: "Cum folosim datele pentru reflecție educațională, îmbunătățirea practicii și inovare.", c: "bg-rose-500" }
-            ];
+            const C = CONTENT[lang];
 
             return (
                 <div className="min-h-screen bg-transparent text-slate-900 selection:bg-indigo-100 selection:text-indigo-900">
-                    <Navbar currentTab={tab} setTab={updateTab} />
+                    <Navbar currentTab={tab} setTab={updateTab} lang={lang} setLang={setLang} />
 
                     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
                         
@@ -419,36 +722,36 @@
                             <div className="animate-fadeIn">
                                 <header className="text-center mb-24">
                                     <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-8 leading-[1.2] font-display tracking-tight max-w-4xl mx-auto">
-                                        Transformă <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-pink-500 to-amber-500">datele</span> în decizii educaționale mai bune
+                                        {C.home.heroTitle[0]} <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-pink-500 to-amber-500">{C.home.heroTitle[1]}</span> {C.home.heroTitle[2]}
                                     </h1>
                                     <p className="text-lg md:text-xl text-slate-500 max-w-3xl mx-auto leading-relaxed font-light">
-                                        Ghidul tău practic pentru utilizarea dovezilor în educație. Explorează inițiative concrete și descoperă cum poți face diferența.
+                                        {C.home.heroDesc}
                                     </p>
                                 </header>
 
                                 <section className="mb-32">
                                     <div className="text-center mb-12">
                                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-black uppercase tracking-[0.2em] mb-4 border border-indigo-100">
-                                            Analiza de context
+                                            {C.home.contextBadge}
                                         </div>
-                                        <h2 className="text-3xl md:text-4xl font-display font-black text-slate-900 mb-4 tracking-tight">De Ce Contează Datele?</h2>
+                                        <h2 className="text-3xl md:text-4xl font-display font-black text-slate-900 mb-4 tracking-tight">{C.home.contextTitle}</h2>
                                         <p className="text-slate-400 text-lg max-w-3xl mx-auto leading-relaxed font-light">
-                                            Provocările sistemului educațional pot fi abordate prin analiză riguroasă și decizii informate.
+                                            {C.home.contextDesc}
                                         </p>
                                     </div>
                                     
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                                        {STATS.map((stat, i) => <StatCard key={i} stat={stat} />)}
+                                        {C.stats.map((stat, i) => <StatCard key={i} stat={stat} uiLabel={C.ui.solution} />)}
                                     </div>
                                 </section>
 
                                 <section className="mb-40">
                                     <div className="text-center mb-16">
-                                        <h2 className="text-3xl md:text-4xl font-display font-black text-slate-900 mb-4 tracking-tight">Modele de Bune Practici</h2>
-                                        <p className="text-slate-400 text-lg max-w-3xl mx-auto font-light">Inovații globale care folosesc datele pentru impact real în educație.</p>
+                                        <h2 className="text-3xl md:text-4xl font-display font-black text-slate-900 mb-4 tracking-tight">{C.home.modelsTitle}</h2>
+                                        <p className="text-slate-400 text-lg max-w-3xl mx-auto font-light">{C.home.modelsDesc}</p>
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                                        {INITIATIVES.map((init) => <InitiativeCard key={init.id} initiative={init} />)}
+                                        {C.initiatives.map((init) => <InitiativeCard key={init.id} initiative={init} ui={C.ui} />)}
                                     </div>
                                 </section>
 
@@ -460,33 +763,28 @@
                                     <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
                                         <div>
                                             <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-8">
-                                                UVT | Științele Educației
+                                                UVT | {lang === 'ro' ? 'Științele Educației' : 'Educational Sciences'}
                                             </div>
                                             <h2 className="text-3xl md:text-4xl font-display font-black text-white mb-8 leading-tight">
-                                                Big Data, Analiza și Utilizarea Datelor
+                                                {C.home.courseTitle}
                                             </h2>
                                             <div className="flex items-center gap-5 mb-10">
                                                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center font-black text-xl text-white shadow-xl shadow-indigo-500/20">
                                                     SF
                                                 </div>
                                                 <div>
-                                                    <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Predat de</p>
+                                                    <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">{C.home.taughtBy}</p>
                                                     <p className="text-white text-xl font-bold">Lect. Univ. Dr. Silvia Fierăscu</p>
                                                 </div>
                                             </div>
                                             <p className="text-slate-400 text-lg leading-relaxed mb-10 font-light">
-                                                Un curs de pionierat dedicat studenților de la Științele Educației din cadrul Universității de Vest din Timișoara, menit să formeze o nouă generație de profesioniști capabili să navigheze complexitatea sistemelor educaționale moderne informate de date și dovezi.
+                                                {C.home.courseDesc}
                                             </p>
                                             
                                             <div className="bg-white/5 backdrop-blur-sm p-8 rounded-[2.5rem] border border-white/10">
-                                                <h3 className="text-[10px] font-black text-indigo-400 mb-6 uppercase tracking-[0.3em]">De ce să te înscrii?</h3>
+                                                <h3 className="text-[10px] font-black text-indigo-400 mb-6 uppercase tracking-[0.3em]">{C.home.whyEnroll}</h3>
                                                 <ul className="space-y-4">
-                                                    {[
-                                                        "Skill-uri de viitor solicitate de angajatorii din EdTech și politici publice.",
-                                                        "Înveți să fundamentezi intervențiile pedagogice pe dovezi, nu pe intuiție.",
-                                                        "Acces la expertiză internațională și studii de caz globale.",
-                                                        "Dezvolți capacitatea de a măsura impactul real al proiectelor tale educaționale."
-                                                                                    ].map((reason, i) => (
+                                                    {C.home.reasons.map((reason, i) => (
                                                         <li key={i} className="flex gap-4 items-start text-slate-300">
                                                             <span className="text-pink-500 font-bold text-lg leading-none">•</span>
                                                             <span className="text-base leading-relaxed font-light">{reason}</span>
@@ -497,9 +795,9 @@
                                         </div>
 
                                         <div className="space-y-10">
-                                            <h3 className="text-2xl font-display font-black text-white mb-8">Vei învăța despre:</h3>
+                                            <h3 className="text-2xl font-display font-black text-white mb-8">{C.home.willLearn}</h3>
                                             <div className="space-y-6">
-                                                {learningObjectives.map((obj, i) => (
+                                                {C.learningObjs.map((obj, i) => (
                                                     <div key={i} className="flex gap-5 group">
                                                         <div className={`flex-shrink-0 w-12 h-12 rounded-xl ${obj.c} text-white flex items-center justify-center font-black text-lg shadow-lg transition-transform group-hover:scale-110`}>
                                                             {i + 1}
@@ -522,40 +820,36 @@
                             <div className="animate-fadeIn">
                                 <header className="text-center mb-24">
                                     <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 font-display tracking-tight">
-                                        Harta ta de <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">Carieră</span>
+                                        {C.careerPage.title[0]} <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">{C.careerPage.title[1]}</span> {C.careerPage.title[2] || ''}
                                     </h1>
                                     <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed font-light">
-                                        Descoperă oportunități noi la intersecția dintre Științele Educației, tehnologie și analiză de date.
+                                        {C.careerPage.subtitle}
                                     </p>
                                 </header>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                    {CAREER_ROLES.map((role) => <CareerCard key={role.id} role={role} />)}
+                                    {C.careers.map((role) => <CareerCard key={role.id} role={role} ui={C.ui} />)}
                                 </div>
 
                                 <div className="mt-24 p-12 bg-gradient-to-br from-slate-50 to-white rounded-[3rem] border border-slate-100 shadow-sm relative overflow-hidden text-left">
                                     <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/5 blur-3xl rounded-full"></div>
-                                    <h2 className="text-2xl md:text-3xl font-display font-black text-slate-900 mb-10 tracking-tight">Cum te pregătești?</h2>
+                                    <h2 className="text-2xl md:text-3xl font-display font-black text-slate-900 mb-10 tracking-tight">{C.careerPage.prepTitle}</h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
                                         <div className="space-y-8">
-                                            <div className="flex gap-5 items-start">
-                                                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-black text-base shadow-lg">1</div>
-                                                <p className="text-slate-500 text-base leading-relaxed font-light pt-1"><strong>Specializarea:</strong> Identifică un domeniu de nișă unde datele pot face diferența.</p>
-                                            </div>
-                                            <div className="flex gap-5 items-start">
-                                                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-pink-500 text-white flex items-center justify-center font-black text-base shadow-lg">2</div>
-                                                <p className="text-slate-500 text-base leading-relaxed font-light pt-1"><strong>Portofoliu:</strong> Lucrează cu date publice și vizualizează-le constant.</p>
-                                            </div>
+                                            {C.careerPage.steps.slice(0, 2).map((step, i) => (
+                                                 <div key={i} className="flex gap-5 items-start">
+                                                    <div className={`flex-shrink-0 w-10 h-10 rounded-xl ${i===0?'bg-indigo-600':'bg-pink-500'} text-white flex items-center justify-center font-black text-base shadow-lg`}>{i+1}</div>
+                                                    <p className="text-slate-500 text-base leading-relaxed font-light pt-1"><strong>{step.t}:</strong> {step.d}</p>
+                                                </div>
+                                            ))}
                                         </div>
                                         <div className="space-y-8">
-                                            <div className="flex gap-5 items-start">
-                                                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-cyan-500 text-white flex items-center justify-center font-black text-base shadow-lg">3</div>
-                                                <p className="text-slate-500 text-base leading-relaxed font-light pt-1"><strong>Tehnologie:</strong> Familiarizează-te cu tool-uri de dashboarding (Tableau, PowerBI).</p>
-                                            </div>
-                                            <div className="flex gap-5 items-start">
-                                                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-black text-base shadow-lg">4</div>
-                                                <p className="text-slate-500 text-base leading-relaxed font-light pt-1"><strong>Comunitate:</strong> Participă la conferințe și conectează-te cu experți.</p>
-                                            </div>
+                                            {C.careerPage.steps.slice(2, 4).map((step, i) => (
+                                                 <div key={i} className="flex gap-5 items-start">
+                                                    <div className={`flex-shrink-0 w-10 h-10 rounded-xl ${i===0?'bg-cyan-500':'bg-amber-500'} text-white flex items-center justify-center font-black text-base shadow-lg`}>{i+3}</div>
+                                                    <p className="text-slate-500 text-base leading-relaxed font-light pt-1"><strong>{step.t}:</strong> {step.d}</p>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -567,16 +861,16 @@
                             <div className="animate-fadeIn text-left">
                                 <header className="text-center mb-20">
                                     <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-8 leading-[1.2] font-display tracking-tight">
-                                        Cum <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-cyan-500">Finanțezi</span> o Inițiativă
+                                        {C.fundingPage.title[0]} <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-cyan-500">{C.fundingPage.title[1]}</span> {C.fundingPage.title[2]}
                                     </h1>
                                     <p className="text-lg md:text-xl text-slate-500 max-w-3xl mx-auto leading-relaxed font-light">
-                                        Ghid complet despre sursele de finanțare europene și oportunități specifice pentru proiecte de Data & AI în educație.
+                                        {C.fundingPage.subtitle}
                                     </p>
                                 </header>
 
                                 {/* Surse Principale */}
                                 <section className="mb-32">
-                                    <h2 className="text-2xl md:text-3xl font-display font-black text-slate-900 mb-12 text-center tracking-tight">Surse Principale de Finanțare</h2>
+                                    <h2 className="text-2xl md:text-3xl font-display font-black text-slate-900 mb-12 text-center tracking-tight">{C.fundingPage.mainTitle}</h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         {/* Erasmus+ */}
                                         <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl transition-all group">
@@ -585,22 +879,20 @@
                                                     <span className="text-4xl font-black text-indigo-600 mb-1 block font-display italic">E+</span>
                                                     <h3 className="text-xl font-bold text-slate-900">Erasmus+</h3>
                                                 </div>
-                                                <span className="bg-indigo-50 px-3 py-1 rounded-full text-[9px] font-black text-indigo-400 border border-indigo-100 uppercase tracking-widest">2021-2027 | €26.2 mld</span>
+                                                <span className="bg-indigo-50 px-3 py-1 rounded-full text-[9px] font-black text-indigo-400 border border-indigo-100 uppercase tracking-widest">2021-2027 | €26.2 bn</span>
                                             </div>
-                                            <p className="text-slate-500 mb-6 text-base font-light leading-relaxed">Programul emblematic al UE pentru educație. Excelent pentru parteneriate educaționale, inovație și data literacy.</p>
+                                            <p className="text-slate-500 mb-6 text-base font-light leading-relaxed">{C.fundingSources.erasmus.desc}</p>
                                             <div className="space-y-4 mb-8">
-                                                <p className="text-[10px] font-black text-indigo-600 uppercase tracking-widest border-l-4 border-indigo-600 pl-3">Pentru proiecte de date:</p>
+                                                <p className="text-[10px] font-black text-indigo-600 uppercase tracking-widest border-l-4 border-indigo-600 pl-3">{C.ui.forDataProjects}</p>
                                                 <ul className="text-sm text-slate-500 space-y-2 list-disc pl-5 font-light">
-                                                    <li>KA2 - Parteneriate de cooperare</li>
-                                                    <li>Inovație digitală: platforme digitale</li>
-                                                    <li>Dezvoltare profesională: training</li>
+                                                    {C.fundingSources.erasmus.projectList.map((item, i) => <li key={i}>{item}</li>)}
                                                 </ul>
                                             </div>
                                             <div className="bg-indigo-50/50 p-6 rounded-2xl border-l-4 border-indigo-600 mb-6">
-                                                <p className="text-[9px] font-black text-indigo-600 uppercase mb-1 tracking-widest">Exemplu de proiect:</p>
-                                                <p className="text-sm text-slate-700 italic font-medium leading-relaxed">"Data Literacy pentru Profesori din Rural" - parteneriat strategic pentru competențe digitale.</p>
+                                                <p className="text-[9px] font-black text-indigo-600 uppercase mb-1 tracking-widest">{C.ui.exampleProject}</p>
+                                                <p className="text-sm text-slate-700 italic font-medium leading-relaxed">"{C.fundingSources.erasmus.example}"</p>
                                             </div>
-                                            <a href="https://erasmus-plus.ec.europa.eu/" target="_blank" className="text-base font-bold text-indigo-600 hover:translate-x-1 transition-transform inline-block">Explorează Erasmus+ →</a>
+                                            <a href="https://erasmus-plus.ec.europa.eu/" target="_blank" className="text-base font-bold text-indigo-600 hover:translate-x-1 transition-transform inline-block">{C.ui.exploreProgram} Erasmus+ →</a>
                                         </div>
 
                                         {/* Horizon Europe */}
@@ -610,22 +902,20 @@
                                                     <span className="text-4xl font-black text-pink-500 mb-1 block font-display italic">HE</span>
                                                     <h3 className="text-xl font-bold text-slate-900">Horizon Europe</h3>
                                                 </div>
-                                                <span className="bg-pink-50 px-4 py-1.5 rounded-full text-[9px] font-black text-pink-400 border border-pink-100 uppercase tracking-widest">2021-2027 | €95.5 mld</span>
+                                                <span className="bg-pink-50 px-4 py-1.5 rounded-full text-[9px] font-black text-pink-400 border border-pink-100 uppercase tracking-widest">2021-2027 | €95.5 bn</span>
                                             </div>
-                                            <p className="text-slate-500 mb-6 text-base font-light leading-relaxed">Programul UE pentru cercetare și inovare. Perfect pentru proiecte care testează AI și learning analytics.</p>
+                                            <p className="text-slate-500 mb-6 text-base font-light leading-relaxed">{C.fundingSources.horizon.desc}</p>
                                             <div className="space-y-4 mb-8">
-                                                <p className="text-[10px] font-black text-pink-500 uppercase tracking-widest border-l-4 border-pink-500 pl-3">Pentru proiecte AI & Data:</p>
+                                                <p className="text-[10px] font-black text-pink-500 uppercase tracking-widest border-l-4 border-pink-500 pl-3">{C.ui.focusData}</p>
                                                 <ul className="text-base text-slate-500 space-y-2 list-disc pl-5 font-light">
-                                                    <li>Cluster 2 - Culture & Society</li>
-                                                    <li>Piloting tehnologii: testare soluții</li>
-                                                    <li>Ethical AI: AI responsabil</li>
+                                                    {C.fundingSources.horizon.projectList.map((item, i) => <li key={i}>{item}</li>)}
                                                 </ul>
                                             </div>
                                             <div className="bg-pink-50/50 p-8 rounded-2xl border-l-4 border-pink-500 mb-6">
-                                                <p className="text-[9px] font-black text-pink-500 uppercase mb-2 tracking-widest">Exemplu de proiect:</p>
-                                                <p className="text-sm text-slate-700 italic font-medium leading-relaxed">"AI Tutor Adaptat pentru Matematică" - dezvoltare și testare RCT a unui sistem de tutorat AI.</p>
+                                                <p className="text-[9px] font-black text-pink-500 uppercase mb-2 tracking-widest">{C.ui.exampleProject}</p>
+                                                <p className="text-sm text-slate-700 italic font-medium leading-relaxed">"{C.fundingSources.horizon.example}"</p>
                                             </div>
-                                            <a href="https://research-and-innovation.ec.europa.eu/" target="_blank" className="text-base font-bold text-pink-500 hover:translate-x-1 transition-transform inline-block">Explorează Horizon Europe →</a>
+                                            <a href="https://research-and-innovation.ec.europa.eu/" target="_blank" className="text-base font-bold text-pink-500 hover:translate-x-1 transition-transform inline-block">{C.ui.exploreProgram} Horizon Europe →</a>
                                         </div>
 
                                         {/* ESF+ */}
@@ -633,24 +923,22 @@
                                             <div className="flex justify-between items-start mb-6">
                                                 <div>
                                                     <span className="text-4xl font-black text-cyan-500 mb-1 block font-display italic">ESF</span>
-                                                    <h3 className="text-xl font-bold text-slate-900">ESF+ (Fondul Social European Plus)</h3>
+                                                    <h3 className="text-xl font-bold text-slate-900">ESF+</h3>
                                                 </div>
-                                                <span className="bg-cyan-50 px-4 py-1.5 rounded-full text-[9px] font-black text-cyan-400 border border-cyan-100 uppercase tracking-widest">2021-2027 | €99.3 mld</span>
+                                                <span className="bg-cyan-50 px-4 py-1.5 rounded-full text-[9px] font-black text-cyan-400 border border-cyan-100 uppercase tracking-widest">2021-2027 | €99.3 bn</span>
                                             </div>
-                                            <p className="text-slate-500 mb-6 text-base font-light leading-relaxed">Cel mai mare instrument UE pentru investiții în oameni. Ideal pentru scalarea intervențiilor bazate pe date.</p>
+                                            <p className="text-slate-500 mb-6 text-base font-light leading-relaxed">{C.fundingSources.esf.desc}</p>
                                             <div className="space-y-4 mb-8">
-                                                <p className="text-[10px] font-black text-cyan-500 uppercase tracking-widest border-l-4 border-cyan-500 pl-3">Pentru proiecte de date:</p>
+                                                <p className="text-[10px] font-black text-cyan-500 uppercase tracking-widest border-l-4 border-cyan-500 pl-3">{C.ui.forDataProjects}</p>
                                                 <ul className="text-base text-slate-500 space-y-2 list-disc pl-5 font-light">
-                                                    <li>Combaterea abandonului școlar</li>
-                                                    <li>Incluziune grupuri vulnerabile</li>
-                                                    <li>Upskilling cadre didactice la scară</li>
+                                                    {C.fundingSources.esf.projectList.map((item, i) => <li key={i}>{item}</li>)}
                                                 </ul>
                                             </div>
                                             <div className="bg-cyan-50/50 p-8 rounded-2xl border-l-4 border-cyan-500 mb-6">
-                                                <p className="text-[9px] font-black text-cyan-500 uppercase mb-2 tracking-widest">Exemplu de proiect:</p>
-                                                <p className="text-sm text-slate-700 italic font-medium leading-relaxed">"Observator Județean pentru Echitate" - platformă integrată de date pentru decizii strategice.</p>
+                                                <p className="text-[9px] font-black text-cyan-500 uppercase mb-2 tracking-widest">{C.ui.exampleProject}</p>
+                                                <p className="text-sm text-slate-700 italic font-medium leading-relaxed">"{C.fundingSources.esf.example}"</p>
                                             </div>
-                                            <a href="https://ec.europa.eu/european-social-fund-plus/ro" target="_blank" className="text-base font-bold text-cyan-500 hover:translate-x-1 transition-transform inline-block">Explorează ESF+ →</a>
+                                            <a href="https://ec.europa.eu/european-social-fund-plus/ro" target="_blank" className="text-base font-bold text-cyan-500 hover:translate-x-1 transition-transform inline-block">{C.ui.exploreProgram} ESF+ →</a>
                                         </div>
 
                                         {/* Digital Europe */}
@@ -660,22 +948,20 @@
                                                     <span className="text-4xl font-black text-amber-500 mb-1 block font-display italic">DEP</span>
                                                     <h3 className="text-xl font-bold text-slate-900">Digital Europe Programme</h3>
                                                 </div>
-                                                <span className="bg-amber-50 px-4 py-1.5 rounded-full text-[9px] font-black text-amber-400 border border-amber-100 uppercase tracking-widest">2021-2027 | €7.5 mld</span>
+                                                <span className="bg-amber-50 px-4 py-1.5 rounded-full text-[9px] font-black text-amber-400 border border-amber-100 uppercase tracking-widest">2021-2027 | €7.5 bn</span>
                                             </div>
-                                            <p className="text-slate-500 mb-6 text-base font-light leading-relaxed">Program pentru accelerarea transformării digitale. Finanțează proiecte de AI și competențe digitale avansate.</p>
+                                            <p className="text-slate-500 mb-6 text-base font-light leading-relaxed">{C.fundingSources.digital.desc}</p>
                                             <div className="space-y-4 mb-8">
-                                                <p className="text-[10px] font-black text-amber-500 uppercase tracking-widest border-l-4 border-amber-500 pl-3">Focus AI & Data:</p>
+                                                <p className="text-[10px] font-black text-amber-500 uppercase tracking-widest border-l-4 border-amber-500 pl-3">{C.ui.focusData}</p>
                                                 <ul className="text-base text-slate-500 space-y-2 list-disc pl-5 font-light">
-                                                    <li>AI pentru educație: aplicații noi</li>
-                                                    <li>Data spaces: ecosisteme securizate</li>
-                                                    <li>Testing AI: sandboxes pentru teste</li>
+                                                    {C.fundingSources.digital.projectList.map((item, i) => <li key={i}>{item}</li>)}
                                                 </ul>
                                             </div>
                                             <div className="bg-amber-50/50 p-8 rounded-2xl border-l-4 border-amber-500 mb-6">
-                                                <p className="text-[9px] font-black text-amber-500 uppercase mb-2 tracking-widest">Exemplu de proiect:</p>
-                                                <p className="text-sm text-slate-700 italic font-medium leading-relaxed">"European Education Data Space Pilot" - demonstrator pentru partajarea datelor securizate.</p>
+                                                <p className="text-[9px] font-black text-amber-500 uppercase mb-2 tracking-widest">{C.ui.exampleProject}</p>
+                                                <p className="text-sm text-slate-700 italic font-medium leading-relaxed">"{C.fundingSources.digital.example}"</p>
                                             </div>
-                                            <a href="https://digital-strategy.ec.europa.eu/en" target="_blank" className="text-base font-bold text-amber-500 hover:translate-x-1 transition-transform inline-block">Explorează DEP →</a>
+                                            <a href="https://digital-strategy.ec.europa.eu/en" target="_blank" className="text-base font-bold text-amber-500 hover:translate-x-1 transition-transform inline-block">{C.ui.exploreProgram} DEP →</a>
                                         </div>
                                     </div>
                                 </section>
@@ -683,59 +969,31 @@
                                 {/* Oportunități Specifice */}
                                 <section className="mb-32 py-20 bg-slate-900 rounded-[3.5rem] px-10 md:px-20 border border-slate-800 shadow-2xl relative overflow-hidden">
                                     <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2"></div>
-                                    <h2 className="text-2xl md:text-3xl font-display font-black text-white mb-12 text-center tracking-tight">Apeluri Active și Viitoare (2025-2027)</h2>
+                                    <h2 className="text-2xl md:text-3xl font-display font-black text-white mb-12 text-center tracking-tight">{C.fundingPage.callsTitle}</h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                        <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-lg">
-                                            <div className="text-[9px] font-black text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded inline-block mb-4 uppercase tracking-[0.2em]">DESCHIS 2025</div>
-                                            <h4 className="font-bold text-white mb-3 text-base font-display">Erasmus+ KA220</h4>
-                                            <p className="text-xs text-slate-400 mb-6 font-light leading-relaxed">Dezvoltare curriculum și training pentru profesori.</p>
-                                            <div className="pt-4 border-t border-white/5 space-y-1.5 text-[10px] text-indigo-300 font-black uppercase tracking-widest">
-                                                <p>€120k - €400k</p>
-                                                <p>24-36 luni</p>
-                                            </div>
-                                        </div>
-                                        <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-lg">
-                                            <div className="text-[9px] font-black text-pink-400 bg-pink-500/10 px-2.5 py-1 rounded inline-block mb-4 uppercase tracking-[0.2em]">APEL 2026</div>
-                                            <h4 className="font-bold text-white mb-3 text-base font-display">Horizon Europe</h4>
-                                            <p className="text-xs text-slate-400 mb-6 font-light leading-relaxed">Cercetare și inovare în sisteme AI educaționale.</p>
-                                            <div className="pt-4 border-t border-white/5 space-y-1.5 text-[10px] text-pink-300 font-black uppercase tracking-widest">
-                                                <p>€2M - €5M</p>
-                                                <p>36-48 luni</p>
-                                            </div>
-                                        </div>
-                                        <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-lg">
-                                            <div className="text-[9px] font-black text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded inline-block mb-4 uppercase tracking-[0.2em]">PLANIFICAT 2026</div>
-                                            <h4 className="font-bold text-white mb-3 text-base font-display">Digital Europe</h4>
-                                            <p className="text-xs text-slate-400 mb-6 font-light leading-relaxed">Crearea de ecosisteme de partajare a datelor.</p>
-                                            <div className="pt-4 border-t border-white/5 space-y-1.5 text-[10px] text-cyan-300 font-black uppercase tracking-widest">
-                                                <p>€3M - €8M</p>
-                                                <p>24-36 luni</p>
-                                            </div>
-                                        </div>
-                                        <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-lg">
-                                            <div className="text-[9px] font-black text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded inline-block mb-4 uppercase tracking-[0.2em]">ROLLING CALLS</div>
-                                            <h4 className="font-bold text-white mb-3 text-base font-display">ESF+ EWS</h4>
-                                            <p className="text-xs text-slate-400 mb-6 font-light leading-relaxed">Sisteme pentru identificarea riscului de abandon.</p>
-                                            <div className="pt-4 border-t border-white/5 space-y-1.5 text-[10px] text-amber-300 font-black uppercase tracking-widest">
-                                                <p>€500k - €2M</p>
-                                                <p>24-48 luni</p>
-                                            </div>
-                                        </div>
+                                        {C.fundingPage.calls.map((call, i) => {
+                                            const colors = ['indigo', 'pink', 'cyan', 'amber'];
+                                            const c = colors[i % 4];
+                                            return (
+                                                <div key={i} className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-lg">
+                                                    <div className={`text-[9px] font-black text-${c}-400 bg-${c}-500/10 px-2.5 py-1 rounded inline-block mb-4 uppercase tracking-[0.2em]`}>{call.status}</div>
+                                                    <h4 className="font-bold text-white mb-3 text-base font-display">{call.title}</h4>
+                                                    <p className="text-xs text-slate-400 mb-6 font-light leading-relaxed">{call.desc}</p>
+                                                    <div className={`pt-4 border-t border-white/5 space-y-1.5 text-[10px] text-${c}-300 font-black uppercase tracking-widest`}>
+                                                        <p>{call.budget}</p>
+                                                        <p>{call.duration}</p>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })}
                                     </div>
                                 </section>
 
                                 {/* Cum Construiești o Propunere */}
                                 <section className="mb-32">
-                                    <h2 className="text-2xl md:text-3xl font-display font-black text-slate-900 mb-16 text-center tracking-tight">Cum Construiești o Propunere de Succes</h2>
+                                    <h2 className="text-2xl md:text-3xl font-display font-black text-slate-900 mb-16 text-center tracking-tight">{C.fundingPage.proposalTitle}</h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                                        {[
-                                            { t: "1. Definește problema clar", d: "Nu începe cu soluția tehnică. Identifică o problemă reală din educație.", c: "text-indigo-600" },
-                                            { t: "2. Arată dovada conceptului", d: "Pilot mic care demonstrează că abordarea funcționează. Dovezi concrete.", c: "text-pink-500" },
-                                            { t: "3. Parteneriate strategice", d: "Combină expertise: universitate, ONG, școală și companii tech.", c: "text-cyan-500" },
-                                            { t: "4. Impact măsurabil", d: "Definește KPI-uri clare: cifre exacte, procente și termene limită.", c: "text-amber-500" },
-                                            { t: "5. Etica datelor ca prioritate", d: "GDPR compliance de la design. Transparență și măsuri anti-bias.", c: "text-emerald-500" },
-                                            { t: "6. Sustenabilitate post-proiect", d: "Plan clar pentru continuare după finanțare. Integrare bugetară.", c: "text-violet-500" }
-                                        ].map((item, idx) => (
+                                        {C.fundingPage.proposalSteps.map((item, idx) => (
                                             <div key={idx} className="group relative">
                                                 <div className="absolute -top-8 left-0 text-6xl font-black text-slate-50 group-hover:text-slate-100 transition-colors pointer-events-none">{idx + 1}</div>
                                                 <h4 className={`text-lg font-bold mb-3 relative z-10 ${item.c}`}>{item.t}</h4>
@@ -747,7 +1005,7 @@
 
                                 {/* Resurse Utile */}
                                 <section className="p-12 bg-white border border-slate-100 rounded-[2.5rem] shadow-sm text-center">
-                                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] mb-10">Resurse Utile pentru Grant Writing</h3>
+                                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] mb-10">{C.fundingPage.resourcesTitle}</h3>
                                     <div className="flex flex-wrap justify-center gap-x-10 gap-y-6">
                                         {[
                                             { n: "Funding & Tenders Portal", l: "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/home", c: "text-indigo-600" },
@@ -778,20 +1036,19 @@
                                 <div className="md:col-span-2 text-left">
                                     <div className="text-3xl font-bold font-display mb-6 tracking-tighter text-white">BigData<span className="text-indigo-500">.</span>Edu</div>
                                     <p className="text-slate-400 text-lg leading-relaxed max-w-md font-light">
-                                        Ghidul studentului la Științele Educației pentru utilizarea Big Data și AI în procesul de învățământ modern.
+                                        {C.footer.desc}
                                     </p>
                                 </div>
                                 <div className="text-left">
-                                    <h4 className="font-black mb-6 uppercase text-[9px] tracking-[0.3em] text-indigo-400">Navigare</h4>
+                                    <h4 className="font-black mb-6 uppercase text-[9px] tracking-[0.3em] text-indigo-400">{C.footer.nav}</h4>
                                     <ul className="space-y-4 text-base text-slate-400 font-light">
-                                        <li className="hover:text-white cursor-pointer transition-colors" onClick={() => updateTab('home')}>De ce date?</li>
-                                        <li className="hover:text-white cursor-pointer transition-colors" onClick={() => updateTab('career')}>Harta Carierei</li>
-                                        <li className="hover:text-white cursor-pointer transition-colors" onClick={() => updateTab('funding')}>Fonduri & Proiecte</li>
+                                        <li className="hover:text-white cursor-pointer transition-colors" onClick={() => updateTab('home')}>{C.nav.why}</li>
+                                        <li className="hover:text-white cursor-pointer transition-colors" onClick={() => updateTab('career')}>{C.nav.career}</li>
+                                        <li className="hover:text-white cursor-pointer transition-colors" onClick={() => updateTab('funding')}>{C.nav.funding}</li>
                                     </ul>
                                 </div>
                                 <div className="text-left">
-                                    <h4 className="font-black mb-6 uppercase text-[9px] tracking-[0.3em] text-pink-400">Parteneri</h4>
-                                    {/* Visual trick: White container to blend the white background logo */}
+                                    <h4 className="font-black mb-6 uppercase text-[9px] tracking-[0.3em] text-pink-400">{C.footer.partners}</h4>
                                     <div className="bg-white p-6 rounded-[1.5rem] shadow-xl border border-white/10 hover:scale-[1.02] transition-transform duration-300">
                                         <img src="logo.png" alt="Parteneri" className="w-full h-auto object-contain" />
                                     </div>
@@ -799,10 +1056,10 @@
                             </div>
 
                             <div className="mb-20 p-10 rounded-[2.5rem] bg-white/5 backdrop-blur-md border border-white/10 text-left max-w-4xl">
-                                <h4 className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.4em] mb-5">Programul Educație și Ocupare 2021-2027</h4>
+                                <h4 className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.4em] mb-5">{C.footer.programTitle}</h4>
                                 <div className="space-y-4">
                                     <p className="text-lg text-slate-300 leading-relaxed italic font-light">
-                                        „Profesioniști reflexivi - colaborativi: un sistem integrat de activități de învățare la locul de muncă și complementare, fundamentat pe principiile integrării teoriei cu practica și utilizării dovezilor în procesul de decizie”
+                                        {C.footer.programDesc}
                                     </p>
                                     <div className="flex flex-col md:flex-row md:items-center gap-4 pt-2">
                                         <p className="text-xs text-indigo-400 font-mono font-bold tracking-widest bg-indigo-500/10 px-3 py-1.5 rounded-lg border border-indigo-500/20 inline-block">
@@ -814,7 +1071,7 @@
                             
                             <div className="border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-8 text-left">
                                 <p className="text-xs text-slate-500 max-w-lg font-light">
-                                    © 2026 BigData.Edu | Toate drepturile rezervate. Material realizat sub egida Universității de Vest din Timișoara.
+                                    {C.footer.rights}
                                 </p>
                             </div>
                         </div>
