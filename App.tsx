@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
-import { Navbar } from './components/Navbar.tsx';
-import { InitiativeCard } from './components/InitiativeCard.tsx';
-import { CareerCard } from './components/CareerCard.tsx';
-import { StatCard } from './components/StatCard.tsx';
-import { STATS, INITIATIVES, CAREER_ROLES } from './constants.tsx';
+import { Navbar } from './components/Navbar';
+import { InitiativeCard } from './components/InitiativeCard';
+import { CareerCard } from './components/CareerCard';
+import { StatCard } from './components/StatCard';
+import { STATS, INITIATIVES, CAREER_ROLES } from './constants';
 
 const App: React.FC = () => {
   const [tab, setTab] = useState('home');
@@ -419,13 +420,9 @@ const App: React.FC = () => {
             </div>
             <div className="text-left">
               <h4 className="font-black mb-6 uppercase text-[9px] tracking-[0.3em] text-pink-400">Parteneri</h4>
-              <div className="flex gap-4">
-                 <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center p-3 grayscale hover:grayscale-0 transition-all cursor-pointer shadow-lg">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/320px-Flag_of_Europe.svg.png" alt="UE" className="object-contain" />
-                 </div>
-                 <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center p-3 grayscale hover:grayscale-0 transition-all cursor-pointer shadow-lg">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Coat_of_arms_of_Romania.svg/1200px-Coat_of_arms_of_Romania.svg.png" alt="RO" className="object-contain" />
-                 </div>
+              {/* Visual trick: White container to blend the white background logo */}
+              <div className="bg-white p-6 rounded-[1.5rem] shadow-xl border border-white/10 hover:scale-[1.02] transition-transform duration-300">
+                <img src="logo.png" alt="Parteneri" className="w-full h-auto object-contain" />
               </div>
             </div>
           </div>
